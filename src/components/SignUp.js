@@ -1,29 +1,63 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
+import axios from "axios";
 
 import Logo from "../assets/Group 8.png";
 
 export default function SignUp() {
 
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
-    const [name, setName] = useState();
-    const [URL, setURL] = useState();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [name, setName] = useState("");
+    const [URL, setURL] = useState("");
     const [opacit, setOpacit] = useState(1);
-    const [color, setColor] = useState("#FFFFFF");
+    const [inputBackGroundColor, setInputBackGroundColor] = useState("#FFFFFF");
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+
+    function load() {
+        if (!loading) return <p>Cadastrar</p>;
+        return <ThreeDots width="13.6vw" height="3.47vw" color="#FFFFFF"/>;
+    }
 
     function submit(e) {
         e.preventDefault();
-        console.log("OI");
+        setInputBackGroundColor("#F2F2F2");
+        setLoading(true);
+        setOpacit(0.7);
+        const signUp = {
+            email,
+            name,
+            image: URL,
+            password
+        };
+        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", signUp);
+        promise.then(GoToLogin);
+        promise.catch(failure);
+    }
 
-    } 
+    function GoToLogin() {
+        navigate("/");
+    }
+
+    function failure() {
+        setLoading(false);
+        setInputBackGroundColor("#FFFFFF");
+        setOpacit(1);
+        setEmail("");
+        setName("");
+        setPassword("");
+        setURL("");
+    }
+
+    const button = load();
 
     return (
         <Container>
             <img src={Logo} alt="Logo"/>
-            <Forms onSubmit={submit} color={color} opacit={opacit}>
+            <Forms onSubmit={submit} color={inputBackGroundColor} opacit={opacit}>
                 <input 
                     type="email" 
                     value={email} 
@@ -57,7 +91,7 @@ export default function SignUp() {
                     required>   
                 </input>
                 <button type="submit" disabled={loading}>
-                    Cadastrar
+                    {button}
                 </button>
             </Forms>
             <Link to="/">
@@ -82,15 +116,15 @@ const Container = styled.div`
     a {
         margin-top: 25px;
         text-decoration: none;
-    }
 
-    p {
-        color: #52B6FF;
-        font-size: 3.73vw;
-        line-height: 4.53vw;
+        p {
+            color: #52B6FF;
+            font-size: 3.73vw;
+            line-height: 4.53vw;
 
-        &:hover {
+            &:hover {
             filter: brightness(2);
+            }
         }
     }
 `
@@ -108,7 +142,7 @@ const Forms = styled.form`
         margin-bottom: 6px;
         border-radius: 5px;
         border: 1px solid #D4D4D4;
-        background-color: ${props => props.color};
+        background-color: ${props => props.inputBackGroundColor};
 
         &::placeholder {
             color: #DBDBDB;
@@ -123,5 +157,15 @@ const Forms = styled.form`
         justify-content: center;
         align-items: center;
         opacity: ${props => props.opacit};
+
+        p {
+        color: #FFFFFF;
+        font-size: 3.73vw;
+        line-height: 4.53vw;
+        }
+
+        &:hover {
+            filter: brightness(0.9);
+        }
     }
 `

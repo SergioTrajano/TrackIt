@@ -16,28 +16,28 @@ export default function Login() {
     const { setToken } = useContext(TokenContext); 
     const navigate = useNavigate();
     const [opacit, setOpacit] = useState(1);
-    const [color, setColor] = useState("#FFFFFF");
+    const [inputBackgroundColor, setInputBackgroundColor] = useState("#FFFFFF");
 
     function load() {
         if (!loading) {
-                    <Text>
-                        Entrar
-                    </Text>
+            return <Text>Entrar</Text>;
         } else {
-                <ThreeDots width="13.6vw" height="3.47vw" color="#FFFFFF"/>
+            return <ThreeDots width="13.6vw" height="3.47vw" color="#FFFFFF"/>;
         }
     }
 
+    const button = load();
+
     function submit(e) {
-        setColor("#F2F2F2");
+        e.preventDefault();
+        setInputBackgroundColor("#F2F2F2");
         setLoading(true);
         setOpacit(0.7);
-        e.preventDefault();
         const user = {
             email,
             password
         }
-        const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", user);
+        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", user);
         promise.then(response => GoToToday(response.data));
         promise.catch(failure)
     }
@@ -50,15 +50,16 @@ export default function Login() {
     function failure() {
         setEmail("");
         setPassword("");
-        setColor("#FFFFFF");
+        setInputBackgroundColor("#FFFFFF");
         setLoading(false);
+        setOpacit(1)
         alert("Dados Incorretos!");
     }
 
     return (
         <Container>
             <img src={Logo} alt="Logo"/>
-            <Forms onSubmit={submit} color={color} opacit={opacit}>
+            <Forms onSubmit={submit} color={inputBackgroundColor} opacit={opacit}>
                 <input 
                     type="email" 
                     value={email} 
@@ -76,7 +77,7 @@ export default function Login() {
                     required>   
                 </input>
                 <button type="submit" disabled={loading}>
-                    Entrar
+                    {button}
                 </button>
             </Forms>
             <Link to="/cadastro">
@@ -101,15 +102,15 @@ const Container = styled.div`
     a {
         margin-top: 25px;
         text-decoration: none;
-    }
 
-    p {
-        color: #52B6FF;
-        font-size: 3.73vw;
-        line-height: 4.53vw;
+        p {
+            color: #52B6FF;
+            font-size: 3.73vw;
+            line-height: 4.53vw;
 
-        &:hover {
+            &:hover {
             filter: brightness(2);
+            }
         }
     }
 `
@@ -142,6 +143,16 @@ const Forms = styled.form`
         justify-content: center;
         align-items: center;
         opacity: ${props => props.opacit};
+
+        p {
+        color: #FFFFFF;
+        font-size: 3.73vw;
+        line-height: 4.53vw;
+        }
+
+        &:hover {
+            filter: brightness(0.9);
+        }
     }
 `
 
