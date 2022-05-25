@@ -46,7 +46,7 @@ export default function App() {
                     <Route path="/cadastro" element={<SignUp />} />
                     <Route path="/habitos" element={<Habits />} />
                     <Route path="/hoje" element={<Today />} />
-                    <Route path="/historico" elemento={<History />} />
+                    <Route path="/historico" element={<History />} />
                 </Routes>
                 {menu}
             </BrowserRouter>

@@ -40,7 +40,6 @@ export default function Menu() {
                         textColor: '#f88',
                         trailColor: "#52B6FF",
                         backgroundColor: "#52B6FF",
-                        backgroundColor: "red"
                         
                     })}
                 >
