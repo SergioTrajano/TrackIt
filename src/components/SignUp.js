@@ -151,7 +151,6 @@ const Forms = styled.form`
 
     button {
         background-color: #52B6FF;
-        width: 80.8vw;
         height: 12vw;
         display:flex;
         justify-content: center;

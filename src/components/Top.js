@@ -26,6 +26,7 @@ const Topp = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 4.8vw;
+    box-sizing: border-box;
 
     p {
         font-family: 'Playball', cursive;
@@ -35,7 +36,6 @@ const Topp = styled.div`
         width: 13.6vw;
         height: 13.6vw;
         border-radius: 50%;
-        margin-right: 9.6vw;
         object-fit: cover;
     }
 `
