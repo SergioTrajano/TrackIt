@@ -1,22 +1,32 @@
 import styled from "styled-components";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
 
 import Logo from "../assets/Group 8.png";
-import TokenContext from "../context/TokenContext";
+import AccountContext from "../context/AccountContext";
 
 
 export default function Login() {
 
+    const localUser = localStorage.getItem("user");
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const { setToken } = useContext(TokenContext); 
+    const { setAccount } = useContext(AccountContext); 
     const navigate = useNavigate();
     const [opacit, setOpacit] = useState(1);
     const [inputBackgroundColor, setInputBackgroundColor] = useState("#FFFFFF");
+
+    useEffect(() => {
+        if (localUser !== null) {
+            const localUserParse = JSON.parse(localUser);
+            setEmail(localUserParse.email);
+            setPassword(localUserParse.password);
+        }
+    }, [])
 
     function load() {
         if (!loading) {
@@ -43,7 +53,14 @@ export default function Login() {
     }
 
     function GoToToday(data) {
-        setToken(data.token);
+        setAccount(data);
+        const user = {
+            email,
+            password
+        }
+        localStorage.removeItem("user");
+        const userStrigify = JSON.stringify(user);
+        localStorage.setItem("user", userStrigify);
         navigate("/hoje");
     }
 

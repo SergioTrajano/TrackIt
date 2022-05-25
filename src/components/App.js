@@ -10,17 +10,37 @@ import Habits from "./Habits";
 import Today from "./Today";
 import History from "./History";
 import Menu from "./Menu";
-import TokenContext from "../context/TokenContext";
+import AccountContext from "../context/AccountContext";
 
 
 export default function App() {
 
-    const [token, setToken] = useState();
+    function showTop() {
+        if (account.token) return <Top></Top>;
+        return <></>;
+    }
+
+    function showMenu() {
+        if (account.token) return <Menu></Menu>;
+        return <></>;
+    }
+
+    const [account, setAccount] = useState({
+        id: "",
+        name: "",
+        image: "",
+        email: "",
+        password: "",
+        token: ""
+    });
+
+    const menu = showMenu();
+    const top = showTop();
 
     return (
-        <TokenContext.Provider value={{token, setToken}}>
+        <AccountContext.Provider value={{account, setAccount}}>
             <BrowserRouter>
-                <Top></Top>
+                {top}
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/cadastro" element={<SignUp />} />
@@ -28,8 +48,8 @@ export default function App() {
                     <Route path="/hoje" element={<Today />} />
                     <Route path="/historico" elemento={<History />} />
                 </Routes>
-                <Menu></Menu>
+                {menu}
             </BrowserRouter>
-        </TokenContext.Provider>
+        </AccountContext.Provider>
     );
 }
