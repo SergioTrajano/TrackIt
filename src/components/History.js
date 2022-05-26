@@ -14,6 +14,7 @@ export default function History() {
 }
 
 const Container = styled.div`
+    height: 100vh;
     background-color: #F2F2F2;
     padding: 70px 4.53vw;
     box-sizing: border-box;
@@ -32,6 +33,5 @@ const Container = styled.div`
         font-size: 4.8vw;
         line-height: 5.87vw;
         margin-top: 17px;
-
     }
 `

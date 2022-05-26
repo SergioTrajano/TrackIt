@@ -6,7 +6,7 @@ import "../CSS/reset.css";
 import Top from "./Top";
 import Login from "./Login";
 import SignUp from "./SignUp";
-import Habits from "./Habits";
+import ShowHabits from "./ShowHabits";
 import Today from "./Today";
 import History from "./History";
 import Menu from "./Menu";
@@ -15,12 +15,12 @@ import AccountContext from "../context/AccountContext";
 
 export default function App() {
 
-    function showTop() {
+    function top() {
         if (account.token) return <Top></Top>;
         return <></>;
     }
 
-    function showMenu() {
+    function menu() {
         if (account.token) return <Menu></Menu>;
         return <></>;
     }
@@ -34,21 +34,21 @@ export default function App() {
         token: ""
     });
 
-    const menu = showMenu();
-    const top = showTop();
+    const showMenu = menu();
+    const showTop = top();
 
     return (
         <AccountContext.Provider value={{account, setAccount}}>
             <BrowserRouter>
-                {top}
+                { showTop }
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/cadastro" element={<SignUp />} />
-                    <Route path="/habitos" element={<Habits />} />
+                    <Route path="/habitos" element={<ShowHabits />} />
                     <Route path="/hoje" element={<Today />} />
                     <Route path="/historico" element={<History />} />
                 </Routes>
-                {menu}
+                { showMenu }
             </BrowserRouter>
         </AccountContext.Provider>
     );

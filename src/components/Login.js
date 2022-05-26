@@ -30,7 +30,7 @@ export default function Login() {
 
     function load() {
         if (!loading) {
-            return <Text>Entrar</Text>;
+            return <p>Entrar</p>;
         } else {
             return <ThreeDots width="13.6vw" height="3.47vw" color="#FFFFFF"/>;
         }
@@ -118,15 +118,16 @@ const Container = styled.div`
 
     a {
         margin-top: 25px;
-        text-decoration: none;
+        text-decoration-color: #52B6FF;
 
         p {
             color: #52B6FF;
             font-size: 3.73vw;
             line-height: 4.53vw;
+            font-family: 'Lexend Deca', sans-serif;
 
             &:hover {
-            filter: brightness(2);
+            filter: brightness(1.1);
             }
         }
     }
@@ -146,9 +147,11 @@ const Forms = styled.form`
         border-radius: 5px;
         border: 1px solid #D4D4D4;
         background-color: ${props => props.color};
+        font-family: 'Lexend Deca', sans-serif;
 
         &::placeholder {
             color: #DBDBDB;
+            font-family: 'Lexend Deca', sans-serif;
         }
     }
 
@@ -162,18 +165,13 @@ const Forms = styled.form`
 
         p {
         color: #FFFFFF;
-        font-size: 3.73vw;
-        line-height: 4.53vw;
+        font-size: 5.6vw;
+        line-height: 6.93vw;
+        font-family: 'Lexend Deca', sans-serif;
         }
 
         &:hover {
             filter: brightness(0.9);
         }
     }
-`
-
-const Text = styled.p`
-    color: #FFFFFF;
-    font-size: 5.6vw;
-    line-height: 6.93vw;
 `

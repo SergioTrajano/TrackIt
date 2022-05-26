@@ -7,14 +7,14 @@ export default function Top() {
     const { account } = useContext(AccountContext);
 
     return (
-        <Topp>
+        <Container>
             <p>TrackIt</p>
             <img src={account.image} alt={account.image}/>
-        </Topp>
+        </Container>
     )
 }
 
-const Topp = styled.div`
+const Container = styled.div`
     position: fixed;
     top: 0;
     left: 0;
