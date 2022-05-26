@@ -11,6 +11,7 @@ import Today from "./Today";
 import History from "./History";
 import Menu from "./Menu";
 import AccountContext from "../context/AccountContext";
+import PorcentageHabitsDoneToday from "../context/PorcentageHabitsDoneToday";
 
 
 export default function App() {
@@ -33,23 +34,26 @@ export default function App() {
         password: "",
         token: ""
     });
+    const [porcentageHabitsDoneToday, setPorcentageHabitsDoneToday] = useState();
 
     const showMenu = menu();
     const showTop = top();
 
     return (
         <AccountContext.Provider value={{account, setAccount}}>
-            <BrowserRouter>
-                { showTop }
-                <Routes>
-                    <Route path="/" element={<Login />} />
-                    <Route path="/cadastro" element={<SignUp />} />
-                    <Route path="/habitos" element={<ShowHabits />} />
-                    <Route path="/hoje" element={<Today />} />
-                    <Route path="/historico" element={<History />} />
-                </Routes>
-                { showMenu }
-            </BrowserRouter>
+            <PorcentageHabitsDoneToday.Provider value={{porcentageHabitsDoneToday, setPorcentageHabitsDoneToday}}>
+                <BrowserRouter>
+                    { showTop }
+                    <Routes>
+                        <Route path="/" element={<Login />} />
+                        <Route path="/cadastro" element={<SignUp />} />
+                        <Route path="/habitos" element={<ShowHabits />} />
+                        <Route path="/hoje" element={<Today />} />
+                        <Route path="/historico" element={<History />} />
+                    </Routes>
+                    { showMenu }
+                </BrowserRouter>
+            </PorcentageHabitsDoneToday.Provider>
         </AccountContext.Provider>
     );
 }

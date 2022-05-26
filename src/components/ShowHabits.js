@@ -58,9 +58,9 @@ export default function ShowHabits() {
                             <p onClick={cancel}>
                                 Cancelar
                             </p>
-                            <div onClick={saveHabit}>
+                            <button onClick={saveHabit} disabled={loading}>
                                 {showLoading}
-                            </div>
+                            </button>
                         </div>
                     </NewHabit>;
         }
@@ -126,6 +126,7 @@ const Container = styled.div`
     padding: 90px 4.8vw 25px 4.8vw;
     box-sizing: border-box;
     background-color: #F2F2F2;
+    min-height: 100vh;
 
     > div:first-child {
         display: flex;
@@ -223,7 +224,7 @@ const NewHabit = styled.div`
             margin-top: 0;
         }
 
-        div {
+        button {
             width: 22.4vw;
             height: 9.33vw;
             color: #FFFFFF;

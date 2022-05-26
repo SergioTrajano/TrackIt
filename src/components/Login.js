@@ -27,6 +27,7 @@ export default function Login() {
             const localUserParse = JSON.parse(localUser);
             setEmail(localUserParse.email);
             setPassword(localUserParse.password);
+            //submit();
         }
     }, [])
 

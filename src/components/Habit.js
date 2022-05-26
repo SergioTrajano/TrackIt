@@ -29,7 +29,7 @@ export default function Habit({ habit, habits, setHabits }) {
                 }
             };
             const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}`, config);
-            promise.then(sucessDelete);
+            promise.then(() => sucessDelete());
         }
     }
 
