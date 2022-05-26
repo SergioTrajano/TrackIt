@@ -41,7 +41,7 @@ export default function App() {
 
     return (
         <AccountContext.Provider value={{account, setAccount}}>
-            <PorcentageHabitsDoneToday.Provider value={{porcentageHabitsDoneToday, setPorcentageHabitsDoneToday}}>
+            <PorcentageHabitsDoneToday.Provider value={{porcentageHabitsDoneToday,setPorcentageHabitsDoneToday}}>
                 <BrowserRouter>
                     { showTop }
                     <Routes>

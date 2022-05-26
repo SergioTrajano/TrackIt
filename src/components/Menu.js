@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import { CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar";
 import { Link, useNavigate } from "react-router-dom";
-
+import PorcentageHabitsDoneToday from "../context/PorcentageHabitsDoneToday";
+import { useContext } from "react";
 
 export default function Menu() {
 
     const navigate = useNavigate();
+    const { porcentageHabitsDoneToday }= useContext(PorcentageHabitsDoneToday);
 
     return (
         <>
@@ -18,7 +20,7 @@ export default function Menu() {
                 </Link>  
             </NavBar>
             <Bar onClick={() => navigate("/hoje")}>
-                <CircularProgressbarWithChildren value="66"
+                <CircularProgressbarWithChildren value={porcentageHabitsDoneToday*100}
                     styles={buildStyles({
                         // Rotation of path and trail, in number of turns (0-1)
                         rotation: 0.25,
@@ -47,8 +49,6 @@ export default function Menu() {
                 </CircularProgressbarWithChildren>
             </Bar>
         </>
-        
-
     )
 }
 

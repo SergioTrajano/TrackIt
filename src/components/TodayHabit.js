@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import AccountContext from "../context/AccountContext";
 import axios from "axios";
 
-export default function TodayHabit({ habitName, habitId, isDone, currentSequence, highestSequence, setTodayHabits }) {
+export default function TodayHabit({ habitName, habitId, isDone, currentSequence, highestSequence }) {
 
     const buttonBackgroundColor = isDone ? "#8FC549" : "#EBEBEB";
     const { account } = useContext(AccountContext);
@@ -15,22 +15,10 @@ export default function TodayHabit({ habitName, habitId, isDone, currentSequence
             }
         };
         if (isDone) {
-            const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habitId}/uncheck`, null, config);
-            promise.then(() => reloadTodayHabits());
+            axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habitId}/uncheck`, null, config);
         } else {
-            const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habitId}/check`, null, config);
-            promise.then(() => reloadTodayHabits());
+            axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habitId}/check`, null, config);
         }
-    }
-
-    function reloadTodayHabits() {
-        const config = {
-            headers: {
-                Authorization: `Bearer ${account.token}`
-            }
-        };
-        const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today", config);
-        promise.then(response => setTodayHabits(response.data));
     }
 
     return (

@@ -3,6 +3,7 @@ import { useEffect, useContext, useState } from "react";
 import axios from "axios";
 import AccountContext from "../context/AccountContext";
 import PorcentageHabitsDoneToday from "../context/PorcentageHabitsDoneToday";
+import dayjs from "dayjs";
 
 import TodayHabit from "./TodayHabit";
 
@@ -11,6 +12,21 @@ export default function Today() {
     const [todayHabits, setTodayHabits] = useState([]);
     const { account } = useContext(AccountContext);
     const { porcentageHabitsDoneToday, setPorcentageHabitsDoneToday } = useContext(PorcentageHabitsDoneToday);
+    var utc = require('dayjs/plugin/utc');
+    var updateLocale = require('dayjs/plugin/updateLocale');
+    
+    
+    dayjs.extend(utc);
+    dayjs.extend(updateLocale);
+    dayjs.updateLocale('en', {
+        weekdays: [
+            "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado"
+        ]
+    });
+
+
+    const date = dayjs.utc().local();
+    
 
     useEffect(() => {
         const config = {
@@ -20,7 +36,7 @@ export default function Today() {
         };
         const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today", config);
         promise.then(response => setTodayHabits(response.data));
-    }, []);
+    }, [todayHabits]);
 
     useEffect(() => setPorcentageHabitsDoneToday(todayHabits.filter( habit => habit.done === true).length / todayHabits.length), [todayHabits]);
     
@@ -38,7 +54,7 @@ export default function Today() {
 
     function renderTodayshabits() {
         if (todayHabits.length) {
-            return todayHabits.map( (habit) => <TodayHabit key={habit.id} habitName={habit.name} habitId={habit.id} isDone={habit.done} currentSequence={habit.currentSequence} highestSequence={habit.highestSequence} setTodayHabits={setTodayHabits} />);
+            return todayHabits.map( (habit) => <TodayHabit key={habit.id} habitName={habit.name} habitId={habit.id} isDone={habit.done} currentSequence={habit.currentSequence} highestSequence={habit.highestSequence} />);
         }
         else return <p>Parece que você não tem hábitos ainda, que tal criar algum?</p>;
     }
@@ -49,7 +65,7 @@ export default function Today() {
     return (
         <Container>
             <TodaysDescription>
-                <p>Usar Dayjs</p>
+                <p>{date.format("dddd, DD/MM")}</p>
                 {descripition}
             </TodaysDescription>
             {listTodayHabits}
