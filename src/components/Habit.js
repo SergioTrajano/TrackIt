@@ -22,13 +22,15 @@ export default function Habit({ habit, habits, setHabits }) {
     }
 
     function deleteHabit() {
-        const config = {
-            headers: {
-                Authorization: `Bearer ${account.token}`
-            }
-        };
-        const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}`, config);
-        promise.then(sucessDelete);
+        if (window.confirm("Deseja excluir o hábito?")) {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${account.token}`
+                }
+            };
+            const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}`, config);
+            promise.then(sucessDelete);
+        }
     }
 
     function sucessDelete() {
@@ -52,7 +54,7 @@ export default function Habit({ habit, habits, setHabits }) {
 const ContainerHabit = styled.div`
     background-color: #FFFFFF;
     width: 90.7vw;
-    height: 24.27vw;
+    height: 91px;
     margin-top: 20px;
     display: flex;
     flex-direction: column;

@@ -27,6 +27,7 @@ const Container = styled.div`
     align-items: center;
     padding: 0 4.8vw;
     box-sizing: border-box;
+    z-index: 1;
 
     p {
         font-family: 'Playball', cursive;

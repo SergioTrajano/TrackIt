@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useEffect, useState, useContext } from "react";
 import AccountContext from "../context/AccountContext";
 import axios from "axios";
+import { ThreeDots } from "react-loader-spinner";
 
 import Habit from "./Habit";
 import Day from "./Day";
@@ -11,12 +12,16 @@ export default function ShowHabits() {
     const { account } = useContext(AccountContext);
     const [habits, setHabits] = useState([]);
     const [addHabit, setAddHabit] = useState("none");
+    const [loading, setLoading] = useState(false);
     const [newHabit, setNewHabit] = useState({
         name: "",
         days: []
     });
+    const [opacit, setOpacit] = useState(1);
+    const [inputBackgroundColor, setInputBackgroundColor] = useState("#FFFFFF");
 
     const weekdays = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+    const showLoading = insideSaveHabit();
     const MyHabits = renderHabits();
     const makeHabit = renderNewHabit();
 
@@ -44,7 +49,7 @@ export default function ShowHabits() {
     function renderNewHabit() {
         if (addHabit === "none") return <></>;
         else {
-            return <NewHabit display={addHabit}>
+            return <NewHabit display={addHabit} opacit={opacit} inputBackgroundColor={inputBackgroundColor} >
                         <input value={newHabit.name} onChange={(e) => setNewHabit({...newHabit, name: e.target.value})} placeholder="nome do hábito" ></input>
                         <div>
                             {weekdays.map( (day, i) => <Day key={i} index={i} day={day} newHabit={newHabit} setNewHabit={setNewHabit} />)}
@@ -54,28 +59,37 @@ export default function ShowHabits() {
                                 Cancelar
                             </p>
                             <div onClick={saveHabit}>
-                                Salvar
+                                {showLoading}
                             </div>
                         </div>
                     </NewHabit>;
         }
     }
 
+    function insideSaveHabit() {
+        if (loading) return <ThreeDots width="11.7vw" height="2.93vw" color="#FFFFFF"/>;
+        return <>Salvar</>;
+    }
+
     function cancel() {
         setAddHabit("none");
-        setNewHabit({
-            name: "",
-            id: []
-        });
     }
 
     function sucessAddinghabit(data) {
         setHabits([...habits, data]);
         setAddHabit("none");
+        setNewHabit({...newHabit, name: "", days: []});
+    }
+
+    function failureAddingHabit() {
+        alert("Erro no servidor!");
     }
 
     function saveHabit() {
         if (newHabit.name && newHabit.days.length) {
+            setOpacit(0.7);
+            setLoading(true);
+            setInputBackgroundColor("#F2F2F2");
             const config = {
                 headers: {
                     Authorization: `Bearer ${account.token}` 
@@ -83,10 +97,13 @@ export default function ShowHabits() {
             };
             const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", newHabit, config);
             promise.then(response => sucessAddinghabit(response.data));
-            promise.catch("Erro no servidor Show!");
+            promise.catch(failureAddingHabit);
+            setOpacit(1);
+            setLoading(false);
+            setInputBackgroundColor("#FFFFFF");
         }
         else {
-            alert("Preencha o nome e marque pelo menos um dia da semana!");
+            alert("Preencha o nome do hábito e marque pelo menos um dia da semana!");
         }
         
     }
@@ -106,16 +123,15 @@ export default function ShowHabits() {
 }
 
 const Container = styled.div`
-    padding: 70px 4.8vw;
+    padding: 90px 4.8vw 25px 4.8vw;
     box-sizing: border-box;
-    height: 100vh;
     background-color: #F2F2F2;
 
     > div:first-child {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 21px;
+        
 
         p {
             color: #126BA5;
@@ -138,6 +154,11 @@ const Container = styled.div`
                 filter: brightness(0.9);
             }
         }
+    }
+
+    > div:last-child {
+        margin-bottom: 70px;
+        background-color: #F2F2F2;
     }
 `
 const Text = styled.p`
@@ -168,6 +189,7 @@ const NewHabit = styled.div`
         line-height: 6.67vw;
         border-radius: 5px;
         padding-left: 2.93vw;
+        background-color: ${props => props.inputBackgroundColor};
 
         &::placeholder {
             color: #DBDBDB;
@@ -180,7 +202,8 @@ const NewHabit = styled.div`
         display: flex;
         justify-content: space-between;
         width: 71.73vw;
-        margin-top: 2.13vw;
+        margin-top: 8px;//2.13vw;
+        margin-bottom: 15px; 
     }
 
     > div:last-child {
@@ -211,6 +234,7 @@ const NewHabit = styled.div`
             border-radius: 5px;
             line-height: 5.3vw;
             font-size: 4.27vw; 
+            opacity: ${props => props.opacit};
         }
     }
 `

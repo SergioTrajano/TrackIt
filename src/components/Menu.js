@@ -64,6 +64,7 @@ const NavBar = styled.div`
     align-items: center;
     padding: 0 8.8vw;
     box-sizing: border-box;
+    z-index: 1;
 
     p {
         font-family: 'Lexend Deca', sans-serif;
@@ -93,6 +94,7 @@ const Bar = styled.div`
     justify-content: center;
     background-color: #52B6FF;
     border-radius: 50%;
+    z-index: 1;
 
     &:hover {
         filter: brightness(0.8)

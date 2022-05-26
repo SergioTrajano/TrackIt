@@ -1,14 +1,21 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Day({ index, day, newHabit, setNewHabit }) {
 
     const [textColor, setTextColor] = useState("#DBDBDB");
     const [backgroundColor, setBackgroundColor] = useState("#FFFFFF");
 
+    useEffect(() => {
+     if (newHabit.days.filter(i => i === index).length) {
+        setTextColor("#FFFFFF");
+        setBackgroundColor("#CFCFCF");
+     }   
+    });
+
     function selected() {
         if (newHabit.days.filter(i => i === index).length) {
-            setNewHabit({...newHabit, id: newHabit.id.filter(i => i !== index)});
+            setNewHabit({...newHabit, days: newHabit.days.filter(i => i !== index)});
             setTextColor("#DBDBDB");
             setBackgroundColor("#FFFFFF");
         } else {

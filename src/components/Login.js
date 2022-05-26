@@ -20,6 +20,8 @@ export default function Login() {
     const [opacit, setOpacit] = useState(1);
     const [inputBackgroundColor, setInputBackgroundColor] = useState("#FFFFFF");
 
+    const button = load();
+
     useEffect(() => {
         if (localUser !== null) {
             const localUserParse = JSON.parse(localUser);
@@ -35,8 +37,6 @@ export default function Login() {
             return <ThreeDots width="13.6vw" height="3.47vw" color="#FFFFFF"/>;
         }
     }
-
-    const button = load();
 
     function submit(e) {
         e.preventDefault();
