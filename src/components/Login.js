@@ -19,6 +19,7 @@ export default function Login() {
     const navigate = useNavigate();
     const [opacit, setOpacit] = useState(1);
     const [inputBackgroundColor, setInputBackgroundColor] = useState("#FFFFFF");
+    const [automaticLogin, setAutomaticLogin] = useState(false);
 
     const button = load();
 
@@ -27,9 +28,13 @@ export default function Login() {
             const localUserParse = JSON.parse(localUser);
             setEmail(localUserParse.email);
             setPassword(localUserParse.password);
-            //submit();
+            setAutomaticLogin(true);
         }
     }, [])
+
+    useEffect(() => {
+        if (automaticLogin) submit();
+    }, [automaticLogin]);
 
     function load() {
         if (!loading) {
@@ -39,8 +44,7 @@ export default function Login() {
         }
     }
 
-    function submit(e) {
-        e.preventDefault();
+    function submit() {
         setInputBackgroundColor("#F2F2F2");
         setLoading(true);
         setOpacit(0.7);
@@ -94,7 +98,7 @@ export default function Login() {
                     disabled={loading}
                     required>   
                 </input>
-                <button type="submit" disabled={loading}>
+                <button type="button" disabled={loading}>
                     {button}
                 </button>
             </Forms>
