@@ -45,6 +45,8 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     box-sizing: border-box;
+    margin-top: 10px;
+    border-radius: 5px;
 
      > div {
         color: #666666;
