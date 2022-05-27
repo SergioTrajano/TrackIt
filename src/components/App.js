@@ -12,6 +12,7 @@ import History from "./History";
 import Menu from "./Menu";
 import AccountContext from "../context/AccountContext";
 import PorcentageHabitsDoneToday from "../context/PorcentageHabitsDoneToday";
+import HabitsToday from "../context/HabitsToday";
 
 
 export default function App() {
@@ -35,6 +36,7 @@ export default function App() {
         token: ""
     });
     const [porcentageHabitsDoneToday, setPorcentageHabitsDoneToday] = useState();
+    const [todayHabits, setTodayHabits] = useState([]);
 
     const showMenu = menu();
     const showTop = top();
@@ -42,17 +44,19 @@ export default function App() {
     return (
         <AccountContext.Provider value={{account, setAccount}}>
             <PorcentageHabitsDoneToday.Provider value={{porcentageHabitsDoneToday,setPorcentageHabitsDoneToday}}>
-                <BrowserRouter>
-                    { showTop }
-                    <Routes>
-                        <Route path="/" element={<Login />} />
-                        <Route path="/cadastro" element={<SignUp />} />
-                        <Route path="/habitos" element={<ShowHabits />} />
-                        <Route path="/hoje" element={<Today />} />
-                        <Route path="/historico" element={<History />} />
-                    </Routes>
-                    { showMenu }
-                </BrowserRouter>
+                <HabitsToday.Provider value={{todayHabits, setTodayHabits}}>
+                    <BrowserRouter>
+                        { showTop }
+                        <Routes>
+                            <Route path="/" element={<Login />} />
+                            <Route path="/cadastro" element={<SignUp />} />
+                            <Route path="/habitos" element={<ShowHabits />} />
+                            <Route path="/hoje" element={<Today />} />
+                            <Route path="/historico" element={<History />} />
+                        </Routes>
+                        { showMenu }
+                    </BrowserRouter>
+                </HabitsToday.Provider>
             </PorcentageHabitsDoneToday.Provider>
         </AccountContext.Provider>
     );

@@ -1,15 +1,16 @@
 import styled from "styled-components";
 import { useEffect, useContext, useState } from "react";
 import axios from "axios";
-import AccountContext from "../context/AccountContext";
-import PorcentageHabitsDoneToday from "../context/PorcentageHabitsDoneToday";
 import dayjs from "dayjs";
 
 import TodayHabit from "./TodayHabit";
+import AccountContext from "../context/AccountContext";
+import PorcentageHabitsDoneToday from "../context/PorcentageHabitsDoneToday";
+import HabitsToday from "../context/HabitsToday";
 
 export default function Today() {
 
-    const [todayHabits, setTodayHabits] = useState([]);
+    const {todayHabits, setTodayHabits} = useContext(HabitsToday);
     const { account } = useContext(AccountContext);
     const { porcentageHabitsDoneToday, setPorcentageHabitsDoneToday } = useContext(PorcentageHabitsDoneToday);
     const utc = require('dayjs/plugin/utc');

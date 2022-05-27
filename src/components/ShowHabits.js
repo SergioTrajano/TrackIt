@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import { useEffect, useState, useContext } from "react";
-import AccountContext from "../context/AccountContext";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
 
 import Habit from "./Habit";
 import Day from "./Day";
+import HabitsToday from "../context/HabitsToday";
+import PorcentageHabitsDoneToday from "../context/PorcentageHabitsDoneToday";
+import AccountContext from "../context/AccountContext";
 
 export default function ShowHabits() {
 
@@ -19,6 +21,8 @@ export default function ShowHabits() {
     });
     const [opacit, setOpacit] = useState(1);
     const [inputBackgroundColor, setInputBackgroundColor] = useState("#FFFFFF");
+    const { setPorcentageHabitsDoneToday} = useContext(PorcentageHabitsDoneToday);
+    const { todayHabits, setTodayHabits } = useContext(HabitsToday);
 
     const weekdays = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
     const showLoading = insideSaveHabit();
@@ -35,7 +39,19 @@ export default function ShowHabits() {
         promise.then(response => setHabits(response.data));
         promise.catch(() => alert(`Deu erro no servidor!`));
 
-    }, []);
+    }, [habits]);
+
+    useEffect(() => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${account.token}` 
+            }
+        };
+        const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today", config);
+        promise.then(response => setTodayHabits(response.data));
+    }, [habits]);
+
+    useEffect(() => setPorcentageHabitsDoneToday(todayHabits.filter( habit => habit.done === true).length / todayHabits.length), [todayHabits]);
 
     function renderHabits() {
         if (habits.length > 0) {

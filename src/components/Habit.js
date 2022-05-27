@@ -36,6 +36,13 @@ export default function Habit({ habit, habits, setHabits }) {
     function sucessDelete() {
         alert("Hábito deletado com sucesso!");
         setHabits(habits.filter(item => item !== habit));
+        const config = {
+            headers: {
+                Authorization: `Bearer ${account.token}`
+            }
+        };
+        const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config);
+        promise.then(response => setHabits(response.data));
     }
 
     const habitsDays = renderDays();
