@@ -12,9 +12,8 @@ export default function Today() {
     const [todayHabits, setTodayHabits] = useState([]);
     const { account } = useContext(AccountContext);
     const { porcentageHabitsDoneToday, setPorcentageHabitsDoneToday } = useContext(PorcentageHabitsDoneToday);
-    var utc = require('dayjs/plugin/utc');
-    var updateLocale = require('dayjs/plugin/updateLocale');
-    
+    const utc = require('dayjs/plugin/utc');
+    const updateLocale = require('dayjs/plugin/updateLocale');
     
     dayjs.extend(utc);
     dayjs.extend(updateLocale);
@@ -24,10 +23,8 @@ export default function Today() {
         ]
     });
 
-
     const date = dayjs.utc().local();
     
-
     useEffect(() => {
         const config = {
             headers: {

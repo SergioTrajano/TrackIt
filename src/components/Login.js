@@ -115,6 +115,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: 'Lexend Deca', sans-serif;
 
     img {
         margin-top: 68px;
@@ -141,6 +142,7 @@ const Container = styled.div`
 const Forms = styled.form`
     display:flex;
     flex-direction: column;
+    font-family: 'Lexend Deca', sans-serif;
     
     input {
         width: 80.8vw;

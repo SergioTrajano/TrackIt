@@ -191,11 +191,13 @@ const NewHabit = styled.div`
         border-radius: 5px;
         padding-left: 2.93vw;
         background-color: ${props => props.inputBackgroundColor};
+        font-family: 'Lexend Deca', sans-serif;
 
         &::placeholder {
             color: #DBDBDB;
             font-size: 5.3vw;
             line-height: 6.67vw;
+            font-family: 'Lexend Deca', sans-serif;
         }
     }
 
@@ -203,8 +205,9 @@ const NewHabit = styled.div`
         display: flex;
         justify-content: space-between;
         width: 71.73vw;
-        margin-top: 8px;//2.13vw;
+        margin-top: 8px;
         margin-bottom: 15px; 
+        font-family: 'Lexend Deca', sans-serif;
     }
 
     > div:last-child {
@@ -215,6 +218,7 @@ const NewHabit = styled.div`
         margin-bottom: 0;
         margin-top: 8vw;
         align-self: flex-end;
+        font-family: 'Lexend Deca', sans-serif;
 
         p {
             color: #52B6FF;

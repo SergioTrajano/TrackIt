@@ -73,6 +73,7 @@ const Container = styled.div`
         width: 18.4vw;
         height: 18.4vw;
         box-sizing: border-box;
+        font-family: 'Lexend Deca', sans-serif;
         
         ion-icon {
             font-size: 9.3vw;
