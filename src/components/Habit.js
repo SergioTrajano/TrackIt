@@ -3,7 +3,7 @@ import AccountContext from "../context/AccountContext";
 import { useContext } from "react";
 import axios from "axios";
 
-export default function Habit({ habit, habits, setHabits }) {
+export default function Habit({ habit }) {
 
     const weekdays = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
     const { account } = useContext(AccountContext);
@@ -14,7 +14,7 @@ export default function Habit({ habit, habits, setHabits }) {
                 {day[0]}</ContainerDay>
         }
         return <ContainerDay key={index} textColor="#CFCFCF" backgroundColor="#FFFFFF">
-            {day[0]}</ContainerDay>
+            {day[0]}</ContainerDay>;
     }
 
     function renderDays() {
@@ -29,20 +29,8 @@ export default function Habit({ habit, habits, setHabits }) {
                 }
             };
             const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}`, config);
-            promise.then(() => sucessDelete());
+            promise.then(() => alert("Hábito deletado com sucesso!"));
         }
-    }
-
-    function sucessDelete() {
-        alert("Hábito deletado com sucesso!");
-        setHabits(habits.filter(item => item !== habit));
-        const config = {
-            headers: {
-                Authorization: `Bearer ${account.token}`
-            }
-        };
-        const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config);
-        promise.then(response => setHabits(response.data));
     }
 
     const habitsDays = renderDays();

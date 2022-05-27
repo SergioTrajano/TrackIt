@@ -55,7 +55,7 @@ export default function ShowHabits() {
 
     function renderHabits() {
         if (habits.length > 0) {
-            return habits.map( (habit, i) => <Habit key={i} habit={habit} habits={habits} setHabits={setHabits} />);
+            return habits.map( (habit, i) => <Habit key={i} habit={habit} />);
         }
         return <Text>
                     Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
