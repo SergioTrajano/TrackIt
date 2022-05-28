@@ -74,6 +74,8 @@ const Container = styled.div`
         height: 18.4vw;
         box-sizing: border-box;
         font-family: 'Lexend Deca', sans-serif;
+        border: none;
+        border-radius: 5px;
         
         ion-icon {
             font-size: 9.3vw;

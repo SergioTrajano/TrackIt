@@ -22,7 +22,6 @@ export default function Habit({ habit }) {
     }
 
     function deleteHabit() {
-        alert("Quero deletar!");
         if (window.confirm("Deseja excluir o hábito?")) {
             const config = {
                 headers: {
