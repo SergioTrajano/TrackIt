@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 
-export default function Day({ index, day, newHabit, setNewHabit }) {
+export default function Day({ index, day, newHabit, setNewHabit, loading }) {
 
     const [textColor, setTextColor] = useState("#DBDBDB");
     const [backgroundColor, setBackgroundColor] = useState("#FFFFFF");
@@ -27,13 +27,13 @@ export default function Day({ index, day, newHabit, setNewHabit }) {
     }
 
     return (
-        <Container textColor={textColor} backgroundColor={backgroundColor} onClick={selected}>
+        <Container textColor={textColor} backgroundColor={backgroundColor} onClick={selected} disabled={loading}>
             {day[0]}
         </Container>
     );
 }
 
-const Container = styled.div`
+const Container = styled.button`
     font-family: 'Lexend Deca', sans-serif;
     color: ${props => props.textColor};
     background-color: ${props => props.backgroundColor};

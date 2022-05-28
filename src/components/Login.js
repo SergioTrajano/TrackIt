@@ -33,7 +33,18 @@ export default function Login() {
     }, [])
 
     useEffect(() => {
-        if (automaticLogin) submit();
+        if (automaticLogin) {
+            setInputBackgroundColor("#F2F2F2");
+            setLoading(true);
+            setOpacit(0.7);
+            const user = {
+                email,
+                password
+            }
+            const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", user);
+            promise.then(response => GoToToday(response.data));
+            promise.catch(() => failure());
+        }
     }, [automaticLogin]);
 
     function load() {
@@ -44,7 +55,8 @@ export default function Login() {
         }
     }
 
-    function submit() {
+    function submit(e) {
+        e.preventDefault();
         setInputBackgroundColor("#F2F2F2");
         setLoading(true);
         setOpacit(0.7);
@@ -54,7 +66,7 @@ export default function Login() {
         }
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", user);
         promise.then(response => GoToToday(response.data));
-        promise.catch(failure)
+        promise.catch(() => failure());
     }
 
     function GoToToday(data) {
@@ -98,7 +110,7 @@ export default function Login() {
                     disabled={loading}
                     required>   
                 </input>
-                <button type="button" disabled={loading}>
+                <button type="submit" disabled={loading}>
                     {button}
                 </button>
             </Forms>

@@ -68,12 +68,12 @@ export default function ShowHabits() {
             return <NewHabit display={addHabit} opacit={opacit} inputBackgroundColor={inputBackgroundColor} >
                         <input value={newHabit.name} onChange={(e) => setNewHabit({...newHabit, name: e.target.value})} placeholder="nome do hábito" ></input>
                         <div>
-                            {weekdays.map( (day, i) => <Day key={i} index={i} day={day} newHabit={newHabit} setNewHabit={setNewHabit} />)}
+                            {weekdays.map( (day, i) => <Day key={i} index={i} day={day} newHabit={newHabit} setNewHabit={setNewHabit} loading={loading} />)}
                         </div>
                         <div>
-                            <p onClick={cancel}>
+                            <button onClick={cancel} disabled={loading}>
                                 Cancelar
-                            </p>
+                            </button>
                             <button onClick={saveHabit} disabled={loading}>
                                 {showLoading}
                             </button>
@@ -95,6 +95,9 @@ export default function ShowHabits() {
         setHabits([...habits, data]);
         setAddHabit("none");
         setNewHabit({...newHabit, name: "", days: []});
+        setOpacit(1);
+        setLoading(false);
+        setInputBackgroundColor("#FFFFFF");
     }
 
     function failureAddingHabit() {
@@ -113,10 +116,7 @@ export default function ShowHabits() {
             };
             const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", newHabit, config);
             promise.then(response => sucessAddinghabit(response.data));
-            promise.catch(failureAddingHabit);
-            setOpacit(1);
-            setLoading(false);
-            setInputBackgroundColor("#FFFFFF");
+            promise.catch(() => failureAddingHabit());
         }
         else {
             alert("Preencha o nome do hábito e marque pelo menos um dia da semana!");
@@ -197,6 +197,7 @@ const NewHabit = styled.div`
     padding: 4.27vw;
     font-family: 'Lexend Deca', sans-serif;
     border-radius: 5px;
+    opacity: ${props => props.opacit};
 
     input {
         width: 100%;
@@ -236,15 +237,19 @@ const NewHabit = styled.div`
         align-self: flex-end;
         font-family: 'Lexend Deca', sans-serif;
 
-        p {
+        button:first-child {
             color: #52B6FF;
             line-height: 5.3vw;
             font-size: 4.27vw; 
             margin-right: 6.13vw;
             margin-top: 0;
+            background-color: #FFFFFF;
+            outline: none;
+            border: none;
+            opacity: ${props => props.opacit};
         }
 
-        button {
+        button:last-child {
             width: 22.4vw;
             height: 9.33vw;
             color: #FFFFFF;
@@ -256,6 +261,7 @@ const NewHabit = styled.div`
             line-height: 5.3vw;
             font-size: 4.27vw; 
             opacity: ${props => props.opacit};
+            border: none;
         }
     }
 `
