@@ -59,7 +59,6 @@ export default function History() {
         <Container>
             <p>Histórico</p>
             {showCalendar}
-            
         </Container>
     )
 }

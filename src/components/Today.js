@@ -54,7 +54,7 @@ export default function Today() {
         if (todayHabits.length) {
             return todayHabits.map( (habit) => <TodayHabit key={habit.id} habitName={habit.name} habitId={habit.id} isDone={habit.done} currentSequence={habit.currentSequence} highestSequence={habit.highestSequence} />);
         }
-        else return <p>Parece que você não tem hábitos ainda, que tal criar algum?</p>;
+        else return <p>Parece que você não tem hábitos para este dia da semana, que tal criar algum?</p>;
     }
 
     const descripition = habitsDoneTodayporcent();

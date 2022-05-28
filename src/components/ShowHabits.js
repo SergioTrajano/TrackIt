@@ -28,13 +28,13 @@ export default function ShowHabits() {
     const showLoading = insideSaveHabit();
     const MyHabits = renderHabits();
     const makeHabit = renderNewHabit();
+    const config = {
+        headers: {
+            Authorization: `Bearer ${account.token}` 
+        }
+    };
 
     useEffect(() => {
-        const config = {
-            headers: {
-                Authorization: `Bearer ${account.token}` 
-            }
-        };
         const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config);
         promise.then(response => setHabits(response.data));
         promise.catch(() => alert(`Deu erro no servidor!`));
@@ -42,16 +42,11 @@ export default function ShowHabits() {
     }, [habits]);
 
     useEffect(() => {
-        const config = {
-            headers: {
-                Authorization: `Bearer ${account.token}` 
-            }
-        };
         const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today", config);
         promise.then(response => setTodayHabits(response.data));
     }, [habits]);
 
-    useEffect(() => setPorcentageHabitsDoneToday(todayHabits.filter( habit => habit.done === true).length / todayHabits.length), [todayHabits]);
+    useEffect(() => setPorcentageHabitsDoneToday(todayHabits.filter( habit => habit.done === true).length / todayHabits.length), [habits]);
 
     function renderHabits() {
         if (habits.length > 0) {
