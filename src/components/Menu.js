@@ -23,7 +23,7 @@ export default function Menu() {
                 <CircularProgressbarWithChildren value={porcentageHabitsDoneToday*100}
                     styles={buildStyles({
                         // Rotation of path and trail, in number of turns (0-1)
-                        rotation: 0.25,
+                        rotation: 0,
 
                         // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
                         strokeLinecap: 'round',
