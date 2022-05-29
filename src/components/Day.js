@@ -11,7 +11,7 @@ export default function Day({ index, day, newHabit, setNewHabit, loading }) {
         setTextColor("#FFFFFF");
         setBackgroundColor("#CFCFCF");
      }   
-    });
+    }, []);
 
     function selected() {
         if (newHabit.days.filter(i => i === index).length) {
