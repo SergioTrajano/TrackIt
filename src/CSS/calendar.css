@@ -13,7 +13,6 @@
 
 .react-calendar__tile {
     border-radius: 50%;
-    max-width: 80%;
 }
 
 .react-calendar__tile:disabled {
@@ -23,4 +22,8 @@
 
 .react-calendar__month-view__days__day--weekend:disabled {
     color: #d10000;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth:disabled {
+    color: #757575;
 }

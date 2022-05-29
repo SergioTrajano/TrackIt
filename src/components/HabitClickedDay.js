@@ -18,14 +18,14 @@ export default function HabitClickedDay({ name, wasDone}) {
 }
 
 const Container = styled.div`
-    width: 80vw;
+    width: 100%;
     height: 25vw;
     background-color: #FFFFFF;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 13px;
-    margin-bottom: 10px;
+    margin-top: 10px;
     box-sizing: border-box;
     border-radius: 5px;
     font-family: 'Lexend Deca', sans-serif;

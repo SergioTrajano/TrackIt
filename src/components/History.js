@@ -64,6 +64,7 @@ export default function History() {
         setClickedDay(
             <ClickedDayHabitsContainer>
                 <p>{dayjs(value).format("dddd, DD/MM/YYYY")}</p>
+                <p>{Number(clickdDate.habits.filter(habit => habit.done).length*100/clickdDate.habits.length).toFixed(0)}% de hábitos concluidos</p>
                 {clickdDate.habits.map( (habit, i) => <HabitClickedDay 
                                                     key={i}
                                                     name={habit.name}
@@ -107,11 +108,9 @@ const ClickedDayHabitsContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 10px;
+    padding: 13px;
     border-radius: 5px;
     font-family: 'Lexend Deca', sans-serif;
+    box-sizing: border-box;
 
-    > p {
-        margin-bottom: 15px;
-    }
 `

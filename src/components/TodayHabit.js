@@ -22,16 +22,16 @@ export default function TodayHabit({ habitName, habitId, isDone, currentSequence
     }
 
     return (
-        <Container buttonBackgroundColor={buttonBackgroundColor}>
+        <Container buttonBackgroundColor={buttonBackgroundColor} currentSequenceColor={isDone ? "#8FC549" : "#666666"} highestSequenceColor={currentSequence === highestSequence ? "#8FC549" : "#666666"}>
             <div>
                 <p>{habitName}</p>
                 <div>
-                    <p>Sequência atual: {currentSequence}</p>
-                    <p>Seu recorde: {highestSequence}</p>
+                    <p>Sequência atual: <span>{currentSequence} {currentSequence > 1 ? "dias" : "dia"}</span> </p>
+                    <p>Seu recorde: <span>{highestSequence} {highestSequence > 1 ? "dias" : "dia"}</span></p>
                 </div>
             </div>
             <button onClick={toggleCheck}>
-                <ion-icon name="checkmark-outline"></ion-icon>
+                <ion-icon name="checkmark-sharp"></ion-icon>
             </button>
         </Container>
     );
@@ -60,9 +60,22 @@ const Container = styled.div`
         div {
             margin-top: 7px;
 
-            p {
+            p:first-child {
                 font-size: 3.47vw;
-                line-height: 4.27vw;    
+                line-height: 4.27vw;
+                
+                span {
+                    color: ${props => props.currentSequenceColor}
+                }
+            }
+
+            p:last-child {
+                font-size: 3.47vw;
+                line-height: 4.27vw;
+                
+                span {
+                    color: ${props => props.currentSequenceColor}
+                }
             }
         }
     }
