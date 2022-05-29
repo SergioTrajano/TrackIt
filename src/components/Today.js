@@ -36,9 +36,14 @@ export default function Today() {
         promise.then(response => setTodayHabits(response.data));
     }, [todayHabits]);
 
-    useEffect(() => setPorcentageHabitsDoneToday(todayHabits.filter( habit => habit.done === true).length / todayHabits.length), [todayHabits]);
+    useEffect(() => {
+        if (todayHabits.length) {
+            setPorcentageHabitsDoneToday(todayHabits.filter( habit => habit.done === true).length / todayHabits.length);
+        } else {
+            setPorcentageHabitsDoneToday(0);
+        }
+    }, [todayHabits]);
     
-
     function habitsDoneTodayporcent() {
         if (porcentageHabitsDoneToday) {
             return <PorcentageText>
@@ -67,7 +72,6 @@ export default function Today() {
                 {descripition}
             </TodaysDescription>
             {listTodayHabits}
-
         </Container>
     )
 }

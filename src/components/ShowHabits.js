@@ -46,7 +46,13 @@ export default function ShowHabits() {
         promise.then(response => setTodayHabits(response.data));
     }, [habits]);
 
-    useEffect(() => setPorcentageHabitsDoneToday(todayHabits.filter( habit => habit.done === true).length / todayHabits.length), [habits]);
+    useEffect(() => {
+        if (todayHabits.length) {
+            setPorcentageHabitsDoneToday(todayHabits.filter( habit => habit.done === true).length / todayHabits.length);
+        } else {
+            setPorcentageHabitsDoneToday(0);
+        }
+    }, [habits]);
 
     function renderHabits() {
         if (habits.length > 0) {
@@ -61,7 +67,11 @@ export default function ShowHabits() {
         if (addHabit === "none") return <></>;
         else {
             return <NewHabit display={addHabit} opacit={opacit} inputBackgroundColor={inputBackgroundColor} >
-                        <input value={newHabit.name} onChange={(e) => setNewHabit({...newHabit, name: e.target.value})} placeholder="nome do hábito" ></input>
+                        <input 
+                            value={newHabit.name} 
+                            onChange={(e) => setNewHabit({...newHabit, name: e.target.value})} placeholder="nome do hábito" 
+                            disabled={loading}
+                        />
                         <div>
                             {weekdays.map( (day, i) => <Day key={i} index={i} day={day} newHabit={newHabit} setNewHabit={setNewHabit} loading={loading} />)}
                         </div>

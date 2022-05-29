@@ -8,7 +8,7 @@
 
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
-  background-color: blue;
+  background-color: wheat;
 }
 
 .react-calendar__tile {
@@ -18,4 +18,9 @@
 
 .react-calendar__tile:disabled {
     background-color: inherit;
+    color: #000000;
+} 
+
+.react-calendar__month-view__days__day--weekend:disabled {
+    color: #d10000;
 }
