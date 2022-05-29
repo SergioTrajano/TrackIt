@@ -49,7 +49,7 @@ export default function Habit({ habit }) {
 const ContainerHabit = styled.div`
     background-color: #FFFFFF;
     width: 90.7vw;
-    height: 91px;
+    min-height: 91px;
     margin-top: 20px;
     display: flex;
     flex-direction: column;

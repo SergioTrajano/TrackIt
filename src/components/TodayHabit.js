@@ -39,7 +39,7 @@ export default function TodayHabit({ habitName, habitId, isDone, currentSequence
 
 const Container = styled.div`
     width: 100%;
-    height: 25.1vw;
+    min-height: 25.1vw;
     background-color: #FFFFFF;
     padding: 13px;
     display: flex;
@@ -55,6 +55,7 @@ const Container = styled.div`
         > p {
             font-size: 5.3vw;
             line-height: 6.67vw;
+            max-width: 60vw;
         }
 
         div {
