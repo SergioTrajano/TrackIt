@@ -10,85 +10,100 @@ import PorcentageHabitsDoneToday from "../context/PorcentageHabitsDoneToday";
 import AccountContext from "../context/AccountContext";
 
 export default function ShowHabits() {
-
     const { account } = useContext(AccountContext);
     const [habits, setHabits] = useState([]);
     const [addHabit, setAddHabit] = useState("none");
     const [loading, setLoading] = useState(false);
     const [newHabit, setNewHabit] = useState({
         name: "",
-        days: []
+        days: [],
     });
     const [opacit, setOpacit] = useState(1);
     const [inputBackgroundColor, setInputBackgroundColor] = useState("#FFFFFF");
-    const { setPorcentageHabitsDoneToday} = useContext(PorcentageHabitsDoneToday);
+    const { setPorcentageHabitsDoneToday } = useContext(PorcentageHabitsDoneToday);
     const { todayHabits, setTodayHabits } = useContext(HabitsToday);
 
     const weekdays = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
     const showLoading = insideSaveHabit();
     const MyHabits = renderHabits();
     const makeHabit = renderNewHabit();
-    const config = {
-        headers: {
-            Authorization: `Bearer ${account.token}` 
-        }
-    };
 
     useEffect(() => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${account.token}`,
+            },
+        };
         const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config);
-        promise.then(response => setHabits(response.data));
+        promise.then((response) => setHabits(response.data));
         promise.catch(() => alert(`Deu erro no servidor!`));
-
-    }, [habits]);
+    }, [habits, account.token]);
 
     useEffect(() => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${account.token}`,
+            },
+        };
         const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today", config);
-        promise.then(response => setTodayHabits(response.data));
-    }, [habits]);
+        promise.then((response) => setTodayHabits(response.data));
+    }, [habits, account.token, setTodayHabits]);
 
     useEffect(() => {
         if (todayHabits.length) {
-            setPorcentageHabitsDoneToday(todayHabits.filter( habit => habit.done === true).length / todayHabits.length);
+            setPorcentageHabitsDoneToday(
+                todayHabits.filter((habit) => habit.done === true).length / todayHabits.length
+            );
         } else {
             setPorcentageHabitsDoneToday(0);
         }
-    }, [habits]);
+    }, [habits, setPorcentageHabitsDoneToday, todayHabits]);
 
     function renderHabits() {
         if (habits.length > 0) {
-            return habits.map( (habit, i) => <Habit key={i} habit={habit} />);
+            return habits.map((habit, i) => <Habit key={i} habit={habit} />);
         }
-        return <Text>
-                    Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
-                </Text>
+        return <Text>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</Text>;
     }
 
     function renderNewHabit() {
         if (addHabit === "none") return <></>;
         else {
-            return <NewHabit display={addHabit} opacit={opacit} inputBackgroundColor={inputBackgroundColor} >
-                        <input 
-                            value={newHabit.name} 
-                            onChange={(e) => setNewHabit({...newHabit, name: e.target.value})} placeholder="nome do hábito" 
-                            disabled={loading}
-                        />
-                        <div>
-                            {weekdays.map( (day, i) => <Day key={i} index={i} day={day} newHabit={newHabit} setNewHabit={setNewHabit} loading={loading} />)}
-                        </div>
-                        <div>
-                            <button onClick={cancel} disabled={loading}>
-                                Cancelar
-                            </button>
-                            <button onClick={saveHabit} disabled={loading}>
-                                {showLoading}
-                            </button>
-                        </div>
-                    </NewHabit>;
+            return (
+                <NewHabit display={addHabit} opacit={opacit} inputBackgroundColor={inputBackgroundColor}>
+                    <input
+                        value={newHabit.name}
+                        onChange={(e) => setNewHabit({ ...newHabit, name: e.target.value })}
+                        placeholder="nome do hábito"
+                        disabled={loading}
+                    />
+                    <div>
+                        {weekdays.map((day, i) => (
+                            <Day
+                                key={i}
+                                index={i}
+                                day={day}
+                                newHabit={newHabit}
+                                setNewHabit={setNewHabit}
+                                loading={loading}
+                            />
+                        ))}
+                    </div>
+                    <div>
+                        <button onClick={cancel} disabled={loading}>
+                            Cancelar
+                        </button>
+                        <button onClick={saveHabit} disabled={loading}>
+                            {showLoading}
+                        </button>
+                    </div>
+                </NewHabit>
+            );
         }
     }
 
     function insideSaveHabit() {
-        if (loading) return <ThreeDots width="11.7vw" height="2.93vw" color="#FFFFFF"/>;
+        if (loading) return <ThreeDots width="11.7vw" height="2.93vw" color="#FFFFFF" />;
         return <>Salvar</>;
     }
 
@@ -99,7 +114,7 @@ export default function ShowHabits() {
     function sucessAddinghabit(data) {
         setHabits([...habits, data]);
         setAddHabit("none");
-        setNewHabit({...newHabit, name: "", days: []});
+        setNewHabit({ ...newHabit, name: "", days: [] });
         setOpacit(1);
         setLoading(false);
         setInputBackgroundColor("#FFFFFF");
@@ -116,17 +131,19 @@ export default function ShowHabits() {
             setInputBackgroundColor("#F2F2F2");
             const config = {
                 headers: {
-                    Authorization: `Bearer ${account.token}` 
-                }
+                    Authorization: `Bearer ${account.token}`,
+                },
             };
-            const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", newHabit, config);
-            promise.then(response => sucessAddinghabit(response.data));
+            const promise = axios.post(
+                "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
+                newHabit,
+                config
+            );
+            promise.then((response) => sucessAddinghabit(response.data));
             promise.catch(() => failureAddingHabit());
-        }
-        else {
+        } else {
             alert("Preencha o nome do hábito e marque pelo menos um dia da semana!");
         }
-        
     }
 
     return (
@@ -146,25 +163,24 @@ export default function ShowHabits() {
 const Container = styled.div`
     padding: 90px 4.8vw 25px 4.8vw;
     box-sizing: border-box;
-    background-color: #F2F2F2;
+    background-color: #f2f2f2;
     min-height: 100vh;
 
     > div:first-child {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        
 
         p {
-            color: #126BA5;
+            color: #126ba5;
             font-size: 6.13vw;
             line-height: 7.47vw;
-            font-family: 'Lexend Deca', sans-serif;
+            font-family: "Lexend Deca", sans-serif;
         }
 
         div {
-            background-color: #52B6FF;
-            color: #FFFFFF;
+            background-color: #52b6ff;
+            color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -180,46 +196,46 @@ const Container = styled.div`
 
     > div:last-child {
         margin-bottom: 70px;
-        background-color: #F2F2F2;
+        background-color: #f2f2f2;
     }
-`
+`;
 const Text = styled.p`
     font-size: 4.8vw;
     line-height: 5.87vw;
-    font-family: 'Lexend Deca', sans-serif;
+    font-family: "Lexend Deca", sans-serif;
     color: #666666;
     margin-top: 30px;
-`
+`;
 
 const NewHabit = styled.div`
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     width: 90.7vw;
     height: 48vw;
     margin-top: 20px;
-    display: ${props => props.display};
+    display: ${(props) => props.display};
     flex-direction: column;
     box-sizing: border-box;
     padding: 4.27vw;
-    font-family: 'Lexend Deca', sans-serif;
+    font-family: "Lexend Deca", sans-serif;
     border-radius: 5px;
-    opacity: ${props => props.opacit};
+    opacity: ${(props) => props.opacit};
 
     input {
         width: 100%;
         height: 12vw;
-        border: 1px solid #D4D4D4;
+        border: 1px solid #d4d4d4;
         font-size: 5.3vw;
         line-height: 6.67vw;
         border-radius: 5px;
         padding-left: 2.93vw;
-        background-color: ${props => props.inputBackgroundColor};
-        font-family: 'Lexend Deca', sans-serif;
+        background-color: ${(props) => props.inputBackgroundColor};
+        font-family: "Lexend Deca", sans-serif;
 
         &::placeholder {
-            color: #DBDBDB;
+            color: #dbdbdb;
             font-size: 5.3vw;
             line-height: 6.67vw;
-            font-family: 'Lexend Deca', sans-serif;
+            font-family: "Lexend Deca", sans-serif;
         }
     }
 
@@ -228,8 +244,8 @@ const NewHabit = styled.div`
         justify-content: space-between;
         width: 71.73vw;
         margin-top: 8px;
-        margin-bottom: 15px; 
-        font-family: 'Lexend Deca', sans-serif;
+        margin-bottom: 15px;
+        font-family: "Lexend Deca", sans-serif;
     }
 
     > div:last-child {
@@ -240,33 +256,33 @@ const NewHabit = styled.div`
         margin-bottom: 0;
         margin-top: 8vw;
         align-self: flex-end;
-        font-family: 'Lexend Deca', sans-serif;
+        font-family: "Lexend Deca", sans-serif;
 
         button:first-child {
-            color: #52B6FF;
+            color: #52b6ff;
             line-height: 5.3vw;
-            font-size: 4.27vw; 
+            font-size: 4.27vw;
             margin-right: 6.13vw;
             margin-top: 0;
-            background-color: #FFFFFF;
+            background-color: #ffffff;
             outline: none;
             border: none;
-            opacity: ${props => props.opacit};
+            opacity: ${(props) => props.opacit};
         }
 
         button:last-child {
             width: 22.4vw;
             height: 9.33vw;
-            color: #FFFFFF;
-            background-color: #52B6FF;
+            color: #ffffff;
+            background-color: #52b6ff;
             display: flex;
             justify-content: center;
             align-items: center;
             border-radius: 5px;
             line-height: 5.3vw;
-            font-size: 4.27vw; 
-            opacity: ${props => props.opacit};
+            font-size: 4.27vw;
+            opacity: ${(props) => props.opacit};
             border: none;
         }
     }
-`
+`;
