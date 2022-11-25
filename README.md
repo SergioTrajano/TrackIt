@@ -16,6 +16,16 @@ Esta é uma aplicação para mobile de acompanhamento de hábitos (O aplicativo 
 
 ***
 
+## :computer:	 Tecnologias e Conceitos
+
+- REST APIs
+- JRefresh tokens
+- JavaScript
+- React
+- Dayjs
+
+***
+
 ## 🏁 Rodando a aplicação
 
 Este projeto foi inicializado com o [Create React App](https://github.com/facebook/create-react-app), então certifique-se que voce tem a ultima versão estável do [Node.js](https://nodejs.org/en/download/) e [npm](https://www.npmjs.com/) rodando localmente.
