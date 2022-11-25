@@ -19,7 +19,7 @@ Esta é uma aplicação para mobile de acompanhamento de hábitos (O aplicativo 
 ## :computer:	 Tecnologias e Conceitos
 
 - REST APIs
-- JRefresh tokens
+- Refresh tokens
 - JavaScript
 - React
 - Dayjs
