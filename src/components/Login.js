@@ -7,15 +7,13 @@ import { ThreeDots } from "react-loader-spinner";
 import Logo from "../assets/Group 8.png";
 import AccountContext from "../context/AccountContext";
 
-
 export default function Login() {
-
     const localUser = localStorage.getItem("user");
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const { setAccount } = useContext(AccountContext); 
+    const { setAccount } = useContext(AccountContext);
     const navigate = useNavigate();
     const [opacit, setOpacit] = useState(1);
     const [inputBackgroundColor, setInputBackgroundColor] = useState("#FFFFFF");
@@ -30,7 +28,7 @@ export default function Login() {
             setPassword(localUserParse.password);
             setAutomaticLogin(true);
         }
-    }, [])
+    }, [localUser]);
 
     useEffect(() => {
         if (automaticLogin) {
@@ -39,19 +37,20 @@ export default function Login() {
             setOpacit(0.7);
             const user = {
                 email,
-                password
-            }
+                password,
+            };
             const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", user);
-            promise.then(response => GoToToday(response.data));
+            promise.then((response) => GoToToday(response.data));
             promise.catch(() => failure());
         }
-    }, [automaticLogin]);
+        /* eslint-disable-next-line */
+    }, [automaticLogin, email, password]);
 
     function load() {
         if (!loading) {
             return <p>Entrar</p>;
         } else {
-            return <ThreeDots width="13.6vw" height="3.47vw" color="#FFFFFF"/>;
+            return <ThreeDots width="13.6vw" height="3.47vw" color="#FFFFFF" />;
         }
     }
 
@@ -62,10 +61,10 @@ export default function Login() {
         setOpacit(0.7);
         const user = {
             email,
-            password
-        }
+            password,
+        };
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", user);
-        promise.then(response => GoToToday(response.data));
+        promise.then((response) => GoToToday(response.data));
         promise.catch(() => failure());
     }
 
@@ -73,8 +72,8 @@ export default function Login() {
         setAccount(data);
         const user = {
             email,
-            password
-        }
+            password,
+        };
         localStorage.removeItem("user");
         const userStrigify = JSON.stringify(user);
         localStorage.setItem("user", userStrigify);
@@ -86,48 +85,46 @@ export default function Login() {
         setPassword("");
         setInputBackgroundColor("#FFFFFF");
         setLoading(false);
-        setOpacit(1)
+        setOpacit(1);
         alert("Dados Incorretos!");
     }
 
     return (
         <Container>
-            <img src={Logo} alt="Logo"/>
+            <img src={Logo} alt="Logo" />
             <Forms onSubmit={submit} color={inputBackgroundColor} opacit={opacit}>
-                <input 
-                    type="email" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    placeholder="email" 
+                <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="email"
                     disabled={loading}
-                    required>
-                </input>
-                <input 
-                    type="password" 
-                    value={password} 
-                    onChange={(e) =>setPassword(e.target.value)} 
-                    placeholder="senha" 
+                    required
+                ></input>
+                <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="senha"
                     disabled={loading}
-                    required>   
-                </input>
+                    required
+                ></input>
                 <button type="submit" disabled={loading}>
                     {button}
                 </button>
             </Forms>
             <Link to="/cadastro">
-                <p>
-                    Não tem uma conta? Cadastre-se!
-                </p>
+                <p>Não tem uma conta? Cadastre-se!</p>
             </Link>
         </Container>
-    )
+    );
 }
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-family: 'Lexend Deca', sans-serif;
+    font-family: "Lexend Deca", sans-serif;
 
     img {
         margin-top: 68px;
@@ -136,26 +133,26 @@ const Container = styled.div`
 
     a {
         margin-top: 25px;
-        text-decoration-color: #52B6FF;
+        text-decoration-color: #52b6ff;
 
         p {
-            color: #52B6FF;
+            color: #52b6ff;
             font-size: 3.73vw;
             line-height: 4.53vw;
-            font-family: 'Lexend Deca', sans-serif;
+            font-family: "Lexend Deca", sans-serif;
 
             &:hover {
-            filter: brightness(1.1);
+                filter: brightness(1.1);
             }
         }
     }
-`
+`;
 
 const Forms = styled.form`
-    display:flex;
+    display: flex;
     flex-direction: column;
-    font-family: 'Lexend Deca', sans-serif;
-    
+    font-family: "Lexend Deca", sans-serif;
+
     input {
         width: 80.8vw;
         height: 12vw;
@@ -164,33 +161,33 @@ const Forms = styled.form`
         padding-left: 2.93vw;
         margin-bottom: 6px;
         border-radius: 5px;
-        border: 1px solid #D4D4D4;
-        background-color: ${props => props.color};
-        font-family: 'Lexend Deca', sans-serif;
+        border: 1px solid #d4d4d4;
+        background-color: ${(props) => props.color};
+        font-family: "Lexend Deca", sans-serif;
 
         &::placeholder {
-            color: #DBDBDB;
-            font-family: 'Lexend Deca', sans-serif;
+            color: #dbdbdb;
+            font-family: "Lexend Deca", sans-serif;
         }
     }
 
     button {
-        background-color: #52B6FF;
+        background-color: #52b6ff;
         height: 12vw;
-        display:flex;
+        display: flex;
         justify-content: center;
         align-items: center;
-        opacity: ${props => props.opacit};
+        opacity: ${(props) => props.opacit};
 
         p {
-        color: #FFFFFF;
-        font-size: 5.6vw;
-        line-height: 6.93vw;
-        font-family: 'Lexend Deca', sans-serif;
+            color: #ffffff;
+            font-size: 5.6vw;
+            line-height: 6.93vw;
+            font-family: "Lexend Deca", sans-serif;
         }
 
         &:hover {
             filter: brightness(0.9);
         }
     }
-`
+`;
