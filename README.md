@@ -20,7 +20,6 @@ Esta é uma aplicação para mobile de acompanhamento de hábitos (O aplicativo 
 
 - REST APIs
 - Refresh tokens
-- JavaScript
 - React
 - Dayjs
 
